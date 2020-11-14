@@ -7,25 +7,28 @@
 
 package frc.robot.commands;
 
-import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class ExampleCommand extends CommandBase {
+public class ShooterCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ExampleSubsystem m_subsystem;
+  private final ShooterSubsystem m_subsystem;
+  private XboxController controller;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ExampleCommand(ExampleSubsystem subsystem) {
+  public ShooterCommand(ShooterSubsystem subsystem) {
     m_subsystem = subsystem;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(subsystem);
+    controller = new XboxController(0);
   }
 
   // Called when the command is initially scheduled.
@@ -36,6 +39,15 @@ public class ExampleCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (controller.getAButton()){
+      m_subsystem.setspeed(1);
+    }
+    else if(controller.getBButton()){
+      m_subsystem.setspeed(0);
+    }
+    if (controller.getXButtonPressed()){
+      m_subsystem.shootball();
+    }
   }
 
   // Called once the command ends or is interrupted.
